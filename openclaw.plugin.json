@@ -1,0 +1,103 @@
+{
+    "id": "1claw",
+    "name": "1Claw Secrets Manager",
+    "version": "0.1.0",
+    "description": "HSM-backed secret management, transaction signing, and Shroud LLM proxy for AI agents",
+    "configSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "apiKey": {
+                "type": "string",
+                "description": "Agent API key (ocv_... prefix)"
+            },
+            "agentId": {
+                "type": "string",
+                "description": "Agent UUID (optional — auto-resolved from API key)"
+            },
+            "vaultId": {
+                "type": "string",
+                "description": "Default vault UUID (optional — auto-discovered)"
+            },
+            "baseUrl": {
+                "type": "string",
+                "default": "https://api.1claw.xyz",
+                "description": "1claw API base URL"
+            },
+            "shroudUrl": {
+                "type": "string",
+                "default": "https://shroud.1claw.xyz",
+                "description": "Shroud TEE proxy URL"
+            },
+            "features": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "tools": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Register native agent tools for secrets, vaults, policies, sharing, and transactions"
+                    },
+                    "secretInjection": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Inject {{1claw:path}} placeholders with real secret values at prompt time"
+                    },
+                    "secretRedaction": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Scan outbound messages and redact leaked secret values"
+                    },
+                    "shroudRouting": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Route LLM traffic through Shroud TEE proxy when agent has shroud_enabled"
+                    },
+                    "keyRotationMonitor": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Background service that warns about expiring secrets"
+                    },
+                    "slashCommands": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Register /oneclaw, /oneclaw-list, /oneclaw-rotate slash commands"
+                    }
+                }
+            },
+            "securityMode": {
+                "type": "string",
+                "enum": ["block", "surgical", "log_only"],
+                "default": "block",
+                "description": "How to handle detected threats in tool inputs"
+            }
+        }
+    },
+    "uiHints": {
+        "apiKey": {
+            "label": "Agent API Key",
+            "sensitive": true,
+            "placeholder": "ocv_..."
+        },
+        "agentId": {
+            "label": "Agent ID",
+            "placeholder": "auto-resolved from API key"
+        },
+        "vaultId": {
+            "label": "Vault ID",
+            "placeholder": "auto-discovered"
+        },
+        "baseUrl": {
+            "label": "API Base URL",
+            "placeholder": "https://api.1claw.xyz"
+        },
+        "shroudUrl": {
+            "label": "Shroud Proxy URL",
+            "placeholder": "https://shroud.1claw.xyz"
+        },
+        "securityMode": {
+            "label": "Security Mode"
+        }
+    },
+    "skills": ["skills/1claw"]
+}

@@ -1,0 +1,57 @@
+{
+    "name": "@1claw/openclaw-plugin",
+    "version": "0.1.0",
+    "description": "OpenClaw plugin for 1claw — HSM-backed secret management, transaction signing, and Shroud LLM proxy integration for AI agents",
+    "type": "module",
+    "main": "src/index.ts",
+    "files": [
+        "src",
+        "skills",
+        "openclaw.plugin.json",
+        "README.md",
+        "LICENSE"
+    ],
+    "openclaw": {
+        "extensions": [
+            "./src/index.ts"
+        ]
+    },
+    "scripts": {
+        "build": "tsc",
+        "typecheck": "tsc --noEmit"
+    },
+    "keywords": [
+        "1claw",
+        "openclaw",
+        "plugin",
+        "secrets",
+        "vault",
+        "hsm",
+        "ai-agents",
+        "shroud",
+        "tee",
+        "intents-api"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/1clawAI/1claw-openclaw-plugin.git"
+    },
+    "homepage": "https://github.com/1clawAI/1claw-openclaw-plugin#readme",
+    "bugs": {
+        "url": "https://github.com/1clawAI/1claw-openclaw-plugin/issues"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@sinclair/typebox": "^0.34.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.19.33",
+        "typescript": "^5.5.0"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    }
+}
