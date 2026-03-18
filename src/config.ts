@@ -50,6 +50,7 @@ export function resolveConfig(pluginConfig?: RawPluginConfig): ResolvedConfig {
         apiKey:
             raw.apiKey ??
             process.env.ONECLAW_AGENT_API_KEY ??
+            process.env.ONECLAW_API_KEY ??
             undefined,
         agentId:
             raw.agentId ??

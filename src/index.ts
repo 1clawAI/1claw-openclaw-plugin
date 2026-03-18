@@ -3,7 +3,7 @@ import { resolveConfig } from "./config.js";
 import { registerAllTools } from "./tools/index.js";
 import { registerAllHooks } from "./hooks/index.js";
 import { registerAllServices } from "./services/index.js";
-import { registerAllCommands } from "./commands/index.js";
+import { registerAllCommands, registerUnauthenticatedCommands } from "./commands/index.js";
 import type { PluginApi } from "./types.js";
 
 interface FullConfig {
@@ -21,9 +21,12 @@ function register(api: PluginApi): void {
     const rawConfig = extractPluginConfig(api);
     const config = resolveConfig(rawConfig as Parameters<typeof resolveConfig>[0]);
 
+    // Always register commands that work without auth (e.g. enroll)
+    registerUnauthenticatedCommands(api, config);
+
     if (!config.apiKey) {
         api.logger.warn(
-            "[1claw] No API key configured. Set plugins.entries.1claw.config.apiKey or ONECLAW_AGENT_API_KEY env var.",
+            "[1claw] No API key configured. Set ONECLAW_AGENT_API_KEY (or ONECLAW_API_KEY) env var, or run /oneclaw-enroll to get started.",
         );
         return;
     }
