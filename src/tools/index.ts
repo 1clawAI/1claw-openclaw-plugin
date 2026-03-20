@@ -16,6 +16,7 @@ import { grantAccessTool } from "./grant-access.js";
 import { shareSecretTool } from "./share-secret.js";
 import { simulateTransactionTool } from "./simulate-transaction.js";
 import { submitTransactionTool } from "./submit-transaction.js";
+import { signTransactionTool } from "./sign-transaction.js";
 
 type ToolFactory = (client: OneClawClient) => PluginTool;
 
@@ -33,6 +34,7 @@ const ALL_TOOL_FACTORIES: ToolFactory[] = [
     shareSecretTool,
     simulateTransactionTool,
     submitTransactionTool,
+    signTransactionTool,
 ];
 
 function wrapWithSecurity(
