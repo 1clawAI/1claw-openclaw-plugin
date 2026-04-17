@@ -20,7 +20,13 @@ export function createVaultTool(client: OneClawClient): PluginTool {
             return {
                 content: [{
                     type: "text",
-                    text: `Vault created successfully.\n  ID: ${vault.id}\n  Name: ${vault.name}\n  Owner: ${vault.created_by_type}:${vault.created_by}\n\nThe vault has been automatically shared with your creator.`,
+                    text:
+                        `Vault created successfully.\n` +
+                        `  ID: ${vault.id}\n` +
+                        `  Name: ${vault.name}\n` +
+                        `  Owner: ${vault.created_by_type}:${vault.created_by}\n\n` +
+                        `This vault is now the default for secret tools in this session — you do **not** need to add ONECLAW_VAULT_ID to Pinata (only ONECLAW_AGENT_API_KEY is required there). ` +
+                        `The vault ID is not sensitive; share it if helpful. The vault has been shared with your creator.`,
                 }],
             };
         },

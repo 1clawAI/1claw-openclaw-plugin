@@ -6,18 +6,22 @@ export function statusCommand(client: OneClawClient, config: ResolvedConfig) {
         name: "oneclaw",
         description: "Show 1claw connection status, vault info, token TTL, and enabled features",
         handler: async () => {
+            await client.ensureVaultResolved();
             const lines: string[] = ["1Claw Status", "─".repeat(30)];
 
             lines.push(`API: ${config.baseUrl}`);
             lines.push(`Shroud: ${config.shroudUrl}`);
             lines.push(`Authenticated: ${client.isAuthenticated ? "yes" : "no"}`);
+            lines.push(
+                "Pinata env: only ONECLAW_AGENT_API_KEY is required (secret). Agent ID & vault ID are optional and not sensitive.",
+            );
 
             if (client.agentId) {
                 lines.push(`Agent ID: ${client.agentId}`);
             }
 
             if (client.vaultId) {
-                lines.push(`Vault ID: ${client.vaultId}`);
+                lines.push(`Default vault ID: ${client.vaultId} (auto-picked if unset in env)`);
             }
 
             const ttlMin = Math.round(client.tokenTtlMs / 60_000);

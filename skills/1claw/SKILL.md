@@ -1,6 +1,6 @@
 ---
 name: 1claw
-version: 1.1.0
+version: 1.2.0
 description: HSM-backed secret management for AI agents — store, retrieve, rotate, and share secrets via the 1Claw vault without exposing them in context.
 homepage: https://1claw.xyz
 repository: https://github.com/1clawAI/1claw
@@ -12,13 +12,11 @@ metadata:
                     {
                         "env":
                             [
-                                "ONECLAW_AGENT_ID",
                                 "ONECLAW_AGENT_API_KEY",
-                                "ONECLAW_VAULT_ID",
                             ],
                         "bins": [],
                     },
-                "primaryEnv": "ONECLAW_AGENT_ID",
+                "primaryEnv": "ONECLAW_AGENT_API_KEY",
                 "install":
                     [
                         {
@@ -58,6 +56,10 @@ metadata:
 **MCP endpoint:** `https://mcp.1claw.xyz/mcp`
 **Dashboard:** `https://1claw.xyz`
 **Docs:** `https://docs.1claw.xyz`
+
+## Pinata / OpenClaw hosting
+
+**Only `ONECLAW_AGENT_API_KEY` must be stored as a secret** in the agent host’s environment (e.g. Pinata → Settings → Environment Variables). Do **not** tell the user they must set `ONECLAW_VAULT_ID` or `ONECLAW_AGENT_ID` there — those UUIDs are optional identifiers, not secrets; the plugin resolves the agent from the API key and picks a default vault (newest org vault, or the vault just created with `oneclaw_create_vault`). Only suggest `ONECLAW_VAULT_ID` when the human explicitly uses **multiple** vaults and needs to pin one.
 
 ## When to use this skill
 

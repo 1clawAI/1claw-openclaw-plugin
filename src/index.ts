@@ -55,6 +55,7 @@ function register(api: PluginApi): void {
 
     api.registerGatewayMethod("1claw.status", async ({ respond }: { respond: (ok: boolean, data: unknown) => void }) => {
         try {
+            await client.ensureVaultResolved();
             const vaults = await client.listVaults();
             respond(true, {
                 authenticated: client.isAuthenticated,

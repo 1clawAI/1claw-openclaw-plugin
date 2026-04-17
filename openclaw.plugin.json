@@ -13,11 +13,11 @@
             },
             "agentId": {
                 "type": "string",
-                "description": "Agent UUID (optional — auto-resolved from API key)"
+                "description": "Optional. Agent UUID — auto-resolved from API key; not a secret, rarely needed in Pinata env"
             },
             "vaultId": {
                 "type": "string",
-                "description": "Default vault UUID (optional — auto-discovered)"
+                "description": "Optional. Pin a default vault when multiple exist; otherwise newest vault is used. Not a secret — only ONECLAW_AGENT_API_KEY must be protected in Pinata"
             },
             "baseUrl": {
                 "type": "string",
@@ -80,12 +80,12 @@
             "placeholder": "ocv_..."
         },
         "agentId": {
-            "label": "Agent ID",
+            "label": "Agent ID (optional)",
             "placeholder": "auto-resolved from API key"
         },
         "vaultId": {
-            "label": "Vault ID",
-            "placeholder": "auto-discovered"
+            "label": "Vault ID (optional)",
+            "placeholder": "auto — newest vault if unset"
         },
         "baseUrl": {
             "label": "API Base URL",

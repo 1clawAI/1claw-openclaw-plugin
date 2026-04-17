@@ -127,9 +127,28 @@ export class OneClawClient {
 
     private async autoDiscoverVault(): Promise<void> {
         const vaults = await this.listVaults();
-        if (vaults.vaults && vaults.vaults.length > 0) {
-            this._vaultId = vaults.vaults[0].id;
+        if (!vaults.vaults || vaults.vaults.length === 0) {
+            return;
         }
+        // Prefer newest vault when several exist (e.g. user just created one); stable UX without ONECLAW_VAULT_ID.
+        const sorted = [...vaults.vaults].sort(
+            (a, b) =>
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime(),
+        );
+        this._vaultId = sorted[0].id;
+    }
+
+    /**
+     * Resolve JWT + pick a default vault when none is configured (token claim, then newest list).
+     * Safe to call before status checks so vaultId is populated without requiring env vars.
+     */
+    async ensureVaultResolved(): Promise<void> {
+        if (this._vaultId) {
+            return;
+        }
+        await this.ensureToken();
+        await this.autoDiscoverVault();
     }
 
     private async headers(): Promise<Record<string, string>> {
@@ -147,7 +166,8 @@ export class OneClawClient {
         if (!this._vaultId) {
             throw new OneClawApiError(
                 400,
-                "No vault configured. Set ONECLAW_VAULT_ID, bind the agent to a vault, or create a vault first.",
+                "No vault available yet. Use oneclaw_create_vault, or ensure your org has at least one vault. " +
+                    "Optional: set ONECLAW_VAULT_ID only if you need to pin one vault when several exist (not a secret).",
             );
         }
         return `${this.baseUrl}/v1/vaults/${this._vaultId}${suffix}`;
@@ -255,10 +275,17 @@ export class OneClawClient {
         name: string,
         description?: string,
     ): Promise<VaultResponse> {
-        return this.request<VaultResponse>(`${this.baseUrl}/v1/vaults`, {
-            method: "POST",
-            body: JSON.stringify({ name, description: description ?? "" }),
-        });
+        const vault = await this.request<VaultResponse>(
+            `${this.baseUrl}/v1/vaults`,
+            {
+                method: "POST",
+                body: JSON.stringify({ name, description: description ?? "" }),
+            },
+        );
+        if (vault?.id) {
+            this._vaultId = vault.id;
+        }
+        return vault;
     }
 
     async listVaults(): Promise<VaultListResponse> {
