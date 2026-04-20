@@ -77,6 +77,17 @@ export class OneClawClient {
         }
     }
 
+    /**
+     * Drops the in-memory JWT so the next request re-exchanges the API key.
+     * Automatic retry on 401 / stale-scope 403 also calls this; you can invoke
+     * manually after dashboard policy edits if you need an immediate refresh.
+     */
+    invalidateCachedAgentToken(): void {
+        if (!this.agentCredentials) return;
+        this.token = "";
+        this.tokenExpiresAt = 0;
+    }
+
     async ensureToken(): Promise<void> {
         if (!this.agentCredentials) return;
         if (this.token && Date.now() < this.tokenExpiresAt - REFRESH_BUFFER_MS)
@@ -173,7 +184,23 @@ export class OneClawClient {
         return `${this.baseUrl}/v1/vaults/${this._vaultId}${suffix}`;
     }
 
-    private async request<T>(url: string, init?: RequestInit): Promise<T> {
+    private shouldReexchangeAgentToken(status: number, detail: string): boolean {
+        if (!this.agentCredentials) return false;
+        if (status === 401) return true;
+        if (status !== 403) return false;
+        const d = detail.toLowerCase();
+        return (
+            d.includes("no scopes") ||
+            d.includes("scopes do not cover") ||
+            d.includes("token has been revoked")
+        );
+    }
+
+    private async request<T>(
+        url: string,
+        init?: RequestInit,
+        isRetry = false,
+    ): Promise<T> {
         const hdrs = await this.headers();
         const res = await fetch(url, {
             ...init,
@@ -206,6 +233,14 @@ export class OneClawClient {
                     403,
                     `Resource limit reached: ${detail}. Ask your human to upgrade the plan at https://1claw.xyz/settings/billing`,
                 );
+            }
+
+            if (
+                !isRetry &&
+                this.shouldReexchangeAgentToken(res.status, detail)
+            ) {
+                this.invalidateCachedAgentToken();
+                return this.request<T>(url, init, true);
             }
 
             throw new OneClawApiError(res.status, detail);
