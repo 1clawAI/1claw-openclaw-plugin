@@ -292,6 +292,67 @@ export class OneClawClient {
         return this.request<VaultListResponse>(`${this.baseUrl}/v1/vaults`);
     }
 
+    /**
+     * Create a vault and (best-effort) share it back to the human who registered
+     * this agent (`agents.created_by`). Returns the vault plus either the sharing
+     * policy that was created or a human-readable reason for skipping the share.
+     * Never throws on share failure — the vault is always returned when creation succeeds.
+     */
+    async createVaultAndShareWithCreator(
+        name: string,
+        description?: string,
+        permissions: string[] = ["read", "write", "admin"],
+    ): Promise<{
+        vault: VaultResponse;
+        shared_with?: { user_id: string; policy_id: string; permissions: string[] };
+        reason?: string;
+    }> {
+        const vault = await this.createVault(name, description);
+
+        let creatorId: string | undefined;
+        try {
+            const profile = await this.getAgentProfile();
+            creatorId = profile.created_by;
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            return {
+                vault,
+                reason: `Vault created; could not read agent profile to find the human creator (${msg}). Have the human grant themselves access from the dashboard.`,
+            };
+        }
+
+        if (!creatorId) {
+            return {
+                vault,
+                reason: "Vault created; no `created_by` on agent profile (agent was enrolled without an email). The human must grant themselves access from the dashboard.",
+            };
+        }
+
+        try {
+            const policy = await this.createPolicy(
+                vault.id,
+                "user",
+                creatorId,
+                permissions,
+                "**",
+            );
+            return {
+                vault,
+                shared_with: {
+                    user_id: creatorId,
+                    policy_id: policy.id,
+                    permissions: policy.permissions,
+                },
+            };
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            return {
+                vault,
+                reason: `Vault created, but failed to share with creator (${msg}). Have the human grant themselves access from the dashboard.`,
+            };
+        }
+    }
+
     // ── Policies ─────────────────────────────────────────
 
     async createPolicy(

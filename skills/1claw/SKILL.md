@@ -98,6 +98,24 @@ npx @1claw/cli agent enroll my-agent --email human@example.com
 
 The human receives the Agent ID + API key by email. They then configure policies for your access.
 
+### Identity — never guess a UUID
+
+After the human pastes `ONECLAW_AGENT_API_KEY` and restarts the agent, the plugin resolves the **real** `agent_id`, `org_id`, `created_by`, and `vault_ids` from the token exchange. You must only ever use those real values.
+
+- Never paraphrase or invent UUIDs. A zero UUID (`00000000-0000-0000-0000-000000000000`) is **never valid** — if you ever see one in a tool response or draft, stop and re-invoke the real tool.
+- `client.agentId`, `/oneclaw`, `/oneclaw-bootstrap`, and `GET /v1/agents/me` are the only trustworthy sources for the agent ID.
+- If the plugin cannot resolve an agent ID (bad key, not restarted, network), surface that failure to the human instead of inventing one.
+
+### First-run auto-bootstrap
+
+Once the API key is in place, run **`/oneclaw-bootstrap`** (or call the gateway method `1claw.bootstrap` if wired) exactly once. It will:
+
+1. Resolve the real agent identity via the auth token exchange.
+2. If the org has no vaults, call `oneclaw_create_vault` with `<agent-name>-shared` and (best-effort) create a user-level access policy so the human who enrolled the agent has `read`, `write`, `admin` on the new vault.
+3. Write non-secret identifiers to `./.1claw/identity.env` in the agent's working directory so the human can see the resolved agent/org/vault IDs. **The `ocv_` API key is never written to this file.**
+
+If any step fails (billing limits, missing `created_by`, network), the command surfaces the error and the agent should relay it to the human — it never papers over failures with fake IDs.
+
 ### Option 1: MCP server (recommended for AI agents)
 
 Add to your MCP client configuration. Only the API key is required — agent ID and vault are auto-discovered.

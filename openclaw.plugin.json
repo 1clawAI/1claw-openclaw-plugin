@@ -1,7 +1,7 @@
 {
     "id": "1claw",
     "name": "1Claw Secrets Manager",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "description": "HSM-backed secret management, transaction signing, and Shroud LLM proxy for AI agents",
     "configSchema": {
         "type": "object",

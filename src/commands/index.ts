@@ -5,6 +5,7 @@ import { statusCommand } from "./status.js";
 import { listCommand } from "./list.js";
 import { rotateCommand } from "./rotate.js";
 import { enrollCommand } from "./enroll.js";
+import { bootstrapCommand } from "./bootstrap.js";
 
 export function registerUnauthenticatedCommands(
     api: PluginApi,
@@ -22,6 +23,9 @@ export function registerAllCommands(
     api.registerCommand(statusCommand(client, config));
     api.registerCommand(listCommand(client));
     api.registerCommand(rotateCommand(client));
+    api.registerCommand(bootstrapCommand(client, config));
 
-    api.logger.info("[1claw] Registered 3 slash commands (/oneclaw, /oneclaw-list, /oneclaw-rotate)");
+    api.logger.info(
+        "[1claw] Registered 4 slash commands (/oneclaw, /oneclaw-list, /oneclaw-rotate, /oneclaw-bootstrap)",
+    );
 }

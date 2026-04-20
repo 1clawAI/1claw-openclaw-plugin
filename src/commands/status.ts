@@ -16,8 +16,13 @@ export function statusCommand(client: OneClawClient, config: ResolvedConfig) {
                 "Pinata env: only ONECLAW_AGENT_API_KEY is required (secret). Agent ID & vault ID are optional and not sensitive.",
             );
 
-            if (client.agentId) {
-                lines.push(`Agent ID: ${client.agentId}`);
+            const agentId = client.agentId;
+            if (agentId && agentId !== "00000000-0000-0000-0000-000000000000") {
+                lines.push(`Agent ID: ${agentId}`);
+            } else {
+                lines.push(
+                    "Agent ID: (not resolved — run /oneclaw-bootstrap, and never assume 00000000-… )",
+                );
             }
 
             if (client.vaultId) {

@@ -57,9 +57,10 @@ function register(api: PluginApi): void {
         try {
             await client.ensureVaultResolved();
             const vaults = await client.listVaults();
+            const agentId = client.agentId;
             respond(true, {
                 authenticated: client.isAuthenticated,
-                agentId: client.agentId ?? null,
+                agentId: agentId && agentId !== "00000000-0000-0000-0000-000000000000" ? agentId : null,
                 vaultId: client.vaultId || null,
                 tokenTtlMs: client.tokenTtlMs,
                 vaultCount: vaults.vaults.length,
@@ -71,6 +72,21 @@ function register(api: PluginApi): void {
             respond(false, { error: msg });
         }
     });
+
+    api.registerGatewayMethod(
+        "1claw.bootstrap",
+        async ({ respond }: { respond: (ok: boolean, data: unknown) => void }) => {
+            try {
+                const { bootstrapCommand } = await import("./commands/bootstrap.js");
+                const cmd = bootstrapCommand(client, config);
+                const result = await cmd.handler();
+                respond(true, result);
+            } catch (err) {
+                const msg = err instanceof Error ? err.message : String(err);
+                respond(false, { error: msg });
+            }
+        },
+    );
 
     api.logger.info("[1claw] Plugin initialized successfully");
 }
