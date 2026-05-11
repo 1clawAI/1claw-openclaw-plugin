@@ -134,6 +134,56 @@ export interface AgentProfile {
     shroud_config?: Record<string, unknown>;
     intents_api_enabled?: boolean;
     created_by?: string;
+    signing_chains?: string[];
+    eip712_domain_allowlist?: string[];
+    eip712_default_policy?: "allow" | "block";
+    message_signing_enabled?: boolean;
+}
+
+export interface SigningKeyResponse {
+    id: string;
+    agent_id: string;
+    chain: string;
+    curve: string;
+    public_key: string;
+    address?: string;
+    key_version: number;
+    is_active: boolean;
+    created_at: string;
+    rotated_at?: string;
+}
+
+export interface SigningKeyListResponse {
+    keys: SigningKeyResponse[];
+}
+
+export interface SignIntentRequest {
+    intent_type: "personal_sign" | "typed_data" | "transaction";
+    chain: string;
+    message?: string;
+    typed_data?: unknown;
+    tx_type?: number;
+    to?: string;
+    value?: string;
+    data?: string;
+    nonce?: number;
+    gas_limit?: number;
+    gas_price?: string;
+    max_fee_per_gas?: string;
+    max_priority_fee_per_gas?: string;
+    signing_key_path?: string;
+}
+
+export interface SignIntentResponse {
+    intent_type: "personal_sign" | "typed_data" | "transaction";
+    chain: string;
+    from: string;
+    signature?: string;
+    signed_tx?: string;
+    tx_hash?: string;
+    message_hash?: string;
+    typed_data_hash?: string;
+    tx_type?: number;
 }
 
 export interface ApiErrorBody {
