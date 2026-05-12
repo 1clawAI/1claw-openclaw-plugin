@@ -10,7 +10,7 @@ OpenClaw gateway plugin for [1claw](https://1claw.xyz) — HSM-backed secret man
 
 ## Features
 
-- **Native agent tools** — 13 tools for secrets, vaults, policies, sharing, and EVM transactions (optional, configurable)
+- **Native agent tools** — 18 tools for secrets, vaults, policies, sharing, signing keys, and EVM transactions (optional, configurable)
 - **Secret redaction** — Scan outbound messages and redact leaked secret values (default on)
 - **Secret injection** — Replace `{{1claw:path/to/secret}}` placeholders at prompt time (opt-in)
 - **Shroud routing** — Route LLM traffic through [Shroud](https://shroud.1claw.xyz) TEE when the agent has `shroud_enabled` (opt-in)
