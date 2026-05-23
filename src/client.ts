@@ -592,6 +592,22 @@ export class OneClawClient {
         );
     }
 
+    // ── Approvals ─────────────────────────────────────────
+
+    async requestApproval(data: {
+        action: string;
+        target_type: string;
+        target_id: string;
+        summary: Record<string, unknown>;
+        reason?: string;
+        risk_tier?: number;
+    }): Promise<{ id: string; status: string }> {
+        return this.request<{ id: string; status: string }>(
+            `${this.baseUrl}/v1/approvals/request`,
+            { method: "POST", body: JSON.stringify(data) },
+        );
+    }
+
     // ── Agent profile ────────────────────────────────────
 
     async getAgentProfile(): Promise<AgentProfile> {

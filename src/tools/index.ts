@@ -21,6 +21,7 @@ import { listSigningKeysTool } from "./list-signing-keys.js";
 import { provisionSigningKeyTool } from "./provision-signing-key.js";
 import { signMessageTool } from "./sign-message.js";
 import { signTypedDataTool } from "./sign-typed-data.js";
+import { requestApprovalTool } from "./request-approval.js";
 
 type ToolFactory = (client: OneClawClient) => PluginTool;
 
@@ -43,6 +44,7 @@ const ALL_TOOL_FACTORIES: ToolFactory[] = [
     provisionSigningKeyTool,
     signMessageTool,
     signTypedDataTool,
+    requestApprovalTool,
 ];
 
 function wrapWithSecurity(
