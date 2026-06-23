@@ -842,9 +842,10 @@ All error responses include a `detail` field with a human-readable message.
 | Tier       | Requests/mo | Vaults    | Secrets   | Agents    | Price                             |
 | ---------- | ----------- | --------- | --------- | --------- | --------------------------------- |
 | Free       | 1,000       | 3         | 50        | 2         | $0                                |
-| Pro        | 25,000      | 25        | 500       | 10        | $29/mo                            |
-| Business   | 100,000     | 100       | 5,000     | 50        | $149/mo (+ CMEK)                  |
-| Enterprise | Custom      | Unlimited | Unlimited | Unlimited | Contact (+ CMEK + KMS delegation) |
+| Pro        | 20,000      | 25        | 500       | 10        | $29/mo (Platform API)             |
+| Team       | 200,000     | 100       | 5,000     | 50        | $299/mo (SSO, Platform API)       |
+| Business   | 500,000     | Unlimited | Unlimited | 200       | $999/mo (Intents API, CMEK)       |
+| Enterprise | Custom      | Unlimited | Unlimited | Unlimited | Contact sales                     |
 
 Overage methods: **prepaid credits** (top up via Stripe, deducted per request) or **x402 micropayments** (per-query on-chain payments on Base).
 
