@@ -592,6 +592,46 @@ export class OneClawClient {
         );
     }
 
+    // ── Execution Intents ─────────────────────────────────
+
+    async executeHttp(
+        agentId: string,
+        params: {
+            binding: string;
+            method?: string;
+            path?: string;
+            headers?: Record<string, string>;
+            body?: Record<string, unknown>;
+            execution_mode?: string;
+        },
+    ): Promise<Record<string, unknown>> {
+        return this.request<Record<string, unknown>>(
+            `${this.baseUrl}/v1/agents/${agentId}/execute`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    binding: params.binding,
+                    intent_type: "http",
+                    execution_mode: params.execution_mode ?? "vault",
+                    params: {
+                        method: params.method ?? "GET",
+                        path: params.path ?? "",
+                        headers: params.headers,
+                        body: params.body,
+                    },
+                }),
+            },
+        );
+    }
+
+    async listBindings(
+        agentId: string,
+    ): Promise<{ bindings: Array<Record<string, unknown>> }> {
+        return this.request<{ bindings: Array<Record<string, unknown>> }>(
+            `${this.baseUrl}/v1/agents/${agentId}/bindings`,
+        );
+    }
+
     // ── Approvals ─────────────────────────────────────────
 
     async requestApproval(data: {
