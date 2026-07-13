@@ -30,6 +30,11 @@ export function listBindingsTool(client: OneClawClient): PluginTool {
                         `Type: ${b.binding_type}`,
                     ];
                     if (b.base_url) parts.push(`URL: ${b.base_url}`);
+                    if (b.credential_source_type === "vault_ref") {
+                        parts.push(`Credential: vault_ref (${b.credential_vault_id}:${b.credential_path})`);
+                    } else if (b.credential_set) {
+                        parts.push(`Credential: inline`);
+                    }
                     parts.push(`Active: ${b.is_active ?? true}`);
                     return parts.join(" | ");
                 });
