@@ -8,9 +8,10 @@ interface SecretCache {
     refreshedAt: number;
 }
 
-let cache: SecretCache | null = null;
+const caches = new WeakMap<OneClawClient, SecretCache>();
 
 async function refreshCache(client: OneClawClient): Promise<Map<string, string>> {
+    const cache = caches.get(client);
     if (cache && Date.now() - cache.refreshedAt < CACHE_TTL_MS) {
         return cache.values;
     }
@@ -29,10 +30,10 @@ async function refreshCache(client: OneClawClient): Promise<Map<string, string>>
             }
         }
     } catch {
-        // Can't list secrets — return empty cache
+        // Can't list secrets - return empty cache
     }
 
-    cache = { values, refreshedAt: Date.now() };
+    caches.set(client, { values, refreshedAt: Date.now() });
     return values;
 }
 
