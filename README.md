@@ -75,24 +75,26 @@ When enabled, tools are registered with a `oneclaw_` prefix (e.g. `oneclaw_list_
 
 ## Companion plugin example: TweetClaw
 
-Use 1claw to store, describe, rotate, and share the Xquik API key used by
-[TweetClaw](https://github.com/Xquik-dev/tweetclaw), the `@xquik/tweetclaw`
-OpenClaw plugin for X/Twitter automation.
+Use 1claw to manage the Xquik API key used by
+[TweetClaw](https://github.com/Xquik-dev/tweetclaw). TweetClaw reads the key
+from sensitive OpenClaw plugin config. 1claw does not inject vault values into
+another plugin's config automatically.
 
 ```bash
-openclaw plugins install @xquik/tweetclaw
+openclaw plugins install clawhub:@xquik/tweetclaw
 openclaw config set plugins.entries.tweetclaw.config.apiKey "$XQUIK_API_KEY"
+openclaw gateway restart
+openclaw plugins inspect tweetclaw --runtime --json
 ```
 
-Keep the raw Xquik API key in 1claw or a local environment variable, not in
-prompts, issues, logs, or checked-in config. Use 1claw to verify the secret
-exists before setup and to rotate or share it later. TweetClaw then injects auth
-into its own API calls and gives the agent structured tools to scrape tweets,
-search tweet replies, post tweets or replies, export followers, look up users,
-monitor tweets, deliver webhooks, handle media, send direct messages, and run
-giveaway draws. Review OpenClaw approval prompts before allowing visible
-X/Twitter writes such as posts, replies, follows, DMs, webhooks, or profile
-updates.
+Retrieve the current key through a trusted human workflow. Expose it as
+`XQUIK_API_KEY` only in that shell. Never paste it into an agent prompt. After
+rotating the key in 1claw, repeat the `config set` command and restart OpenClaw.
+If the tool profile excludes plugins, add both names to `tools.alsoAllow`.
+
+TweetClaw injects auth into its API calls. It provides structured tools for
+search, publishing, exports, monitoring, media, direct messages, and draws.
+Review each OpenClaw approval prompt before allowing visible X/Twitter writes.
 
 ## Slash commands
 
