@@ -1,6 +1,6 @@
 {
     "name": "@1claw/openclaw-plugin",
-    "version": "0.6.1",
+    "version": "0.42.0",
     "description": "OpenClaw plugin for 1claw — HSM-backed secret management, transaction signing, and Shroud LLM proxy integration for AI agents",
     "type": "module",
     "main": "src/index.ts",
@@ -21,16 +21,20 @@
         "typecheck": "tsc --noEmit"
     },
     "keywords": [
-        "1claw",
-        "openclaw",
-        "plugin",
-        "secrets",
-        "vault",
-        "hsm",
-        "ai-agents",
-        "shroud",
-        "tee",
-        "intents-api"
+    "1claw",
+    "openclaw",
+    "plugin",
+    "secrets",
+    "vault",
+    "hsm",
+    "ai-agents",
+    "shroud",
+    "tee",
+    "intents-api",
+    "automations",
+    "memory",
+    "runtimes",
+    "discovery"
     ],
     "publishConfig": {
         "access": "public"

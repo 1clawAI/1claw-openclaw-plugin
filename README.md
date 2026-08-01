@@ -10,12 +10,16 @@ OpenClaw gateway plugin for [1claw](https://1claw.xyz) — HSM-backed secret man
 
 ## Features
 
-- **Native agent tools** — 20 tools for secrets, vaults, policies, sharing, signing keys, multi-chain transactions, and execution intents (EVM + Bitcoin, Solana, XRP, Cardano, Tron; optional, configurable)
+- **Native agent tools** — 27+ tools for secrets, vaults, policies, sharing, signing keys, multi-chain transactions, execution intents, automations, memory, runtimes, and discovery (EVM + Bitcoin, Solana, XRP, Cardano, Tron; optional, configurable)
+- **Automations** — Create and manage cron-based scheduled tasks via `oneclaw_create_automation`, `oneclaw_list_automations`, `oneclaw_delete_automation`
+- **Agent Memory** — Store and search persistent vector memory via `oneclaw_store_memory`, `oneclaw_search_memory`
+- **Runtimes** — Deploy and manage agent runtime environments via `oneclaw_deploy_runtime`, `oneclaw_list_runtimes`
+- **Discovery** — Publish agents to the 1Claw directory via `oneclaw_publish_agent`, `oneclaw_search_directory`
 - **Secret redaction** — Scan outbound messages and redact leaked secret values (default on)
 - **Secret injection** — Replace `{{1claw:path/to/secret}}` placeholders at prompt time (opt-in)
 - **Shroud routing** — Route LLM traffic through [Shroud](https://shroud.1claw.xyz) TEE when the agent has `shroud_enabled` (opt-in)
 - **Key rotation monitor** — Background warnings for secrets expiring within 7 days (opt-in)
-- **Slash commands** — `/oneclaw`, `/oneclaw-list`, `/oneclaw-rotate` (optional)
+- **Slash commands** — `/oneclaw`, `/oneclaw-list`, `/oneclaw-rotate`, `/oneclaw-memory` (optional)
 - **Gateway RPC** — `1claw.status` for programmatic health/status
 - **Bundled skill** — 1claw skill (`skills/1claw/SKILL.md`) auto-discovered by OpenClaw
 
