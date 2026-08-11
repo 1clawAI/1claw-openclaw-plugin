@@ -648,6 +648,72 @@ export class OneClawClient {
         );
     }
 
+    // ── Memory ────────────────────────────────────────────
+
+    async putMemory(
+        namespace: string,
+        key: string,
+        data: { value: string; tier?: string; ttl_secs?: number },
+    ): Promise<Record<string, unknown>> {
+        const agentId = this.agentId;
+        if (!agentId) throw new OneClawApiError(400, "Agent ID not resolved");
+        return this.request<Record<string, unknown>>(
+            `${this.baseUrl}/v1/agents/${agentId}/memory/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`,
+            { method: "PUT", body: JSON.stringify(data) },
+        );
+    }
+
+    async getMemory(
+        namespace: string,
+        key: string,
+    ): Promise<Record<string, unknown>> {
+        const agentId = this.agentId;
+        if (!agentId) throw new OneClawApiError(400, "Agent ID not resolved");
+        return this.request<Record<string, unknown>>(
+            `${this.baseUrl}/v1/agents/${agentId}/memory/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`,
+        );
+    }
+
+    async listMemory(
+        namespace: string,
+    ): Promise<Array<Record<string, unknown>>> {
+        const agentId = this.agentId;
+        if (!agentId) throw new OneClawApiError(400, "Agent ID not resolved");
+        const res = await this.request<{ entries: Array<Record<string, unknown>> }>(
+            `${this.baseUrl}/v1/agents/${agentId}/memory/${encodeURIComponent(namespace)}`,
+        );
+        return res.entries;
+    }
+
+    async deleteMemory(
+        namespace: string,
+        key: string,
+    ): Promise<void> {
+        const agentId = this.agentId;
+        if (!agentId) throw new OneClawApiError(400, "Agent ID not resolved");
+        return this.request<void>(
+            `${this.baseUrl}/v1/agents/${agentId}/memory/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`,
+            { method: "DELETE" },
+        );
+    }
+
+    // ── Automations ──────────────────────────────────────
+
+    async listAutomations(): Promise<{ automations: Array<Record<string, unknown>> }> {
+        return this.request<{ automations: Array<Record<string, unknown>> }>(
+            `${this.baseUrl}/v1/automations`,
+        );
+    }
+
+    async triggerAutomation(
+        automationId: string,
+    ): Promise<Record<string, unknown>> {
+        return this.request<Record<string, unknown>>(
+            `${this.baseUrl}/v1/automations/${automationId}/trigger`,
+            { method: "POST", body: JSON.stringify({}) },
+        );
+    }
+
     // ── Agent profile ────────────────────────────────────
 
     async getAgentProfile(): Promise<AgentProfile> {

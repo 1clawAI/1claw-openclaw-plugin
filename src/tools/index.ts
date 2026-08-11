@@ -24,6 +24,11 @@ import { signTypedDataTool } from "./sign-typed-data.js";
 import { requestApprovalTool } from "./request-approval.js";
 import { executeHttpTool } from "./execute-http.js";
 import { listBindingsTool } from "./list-bindings.js";
+import { putMemoryTool } from "./put-memory.js";
+import { getMemoryTool } from "./get-memory.js";
+import { listMemoryTool } from "./list-memory.js";
+import { listAutomationsTool } from "./list-automations.js";
+import { triggerAutomationTool } from "./trigger-automation.js";
 
 type ToolFactory = (client: OneClawClient) => PluginTool;
 
@@ -49,6 +54,11 @@ const ALL_TOOL_FACTORIES: ToolFactory[] = [
     requestApprovalTool,
     executeHttpTool,
     listBindingsTool,
+    putMemoryTool,
+    getMemoryTool,
+    listMemoryTool,
+    listAutomationsTool,
+    triggerAutomationTool,
 ];
 
 function wrapWithSecurity(
