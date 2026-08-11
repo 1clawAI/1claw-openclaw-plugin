@@ -24,19 +24,25 @@ function register(api: PluginApi): void {
     // Always register commands that work without auth (e.g. enroll)
     registerUnauthenticatedCommands(api, config);
 
-    if (!config.apiKey) {
+    if (!config.apiKey && !config.token) {
         api.logger.warn(
-            "[1claw] No API key configured. Set ONECLAW_AGENT_API_KEY (or ONECLAW_API_KEY) env var, or run /oneclaw-enroll to get started.",
+            "[1claw] No API key or token configured. Set ONECLAW_AGENT_API_KEY, ONECLAW_AGENT_TOKEN, or run /oneclaw-enroll to get started.",
         );
         return;
     }
 
-    const client = new OneClawClient({
-        baseUrl: config.baseUrl,
-        apiKey: config.apiKey,
-        agentId: config.agentId,
-        vaultId: config.vaultId,
-    });
+    const client = config.apiKey
+        ? new OneClawClient({
+              baseUrl: config.baseUrl,
+              apiKey: config.apiKey,
+              agentId: config.agentId,
+              vaultId: config.vaultId,
+          })
+        : new OneClawClient({
+              baseUrl: config.baseUrl,
+              token: config.token!,
+              vaultId: config.vaultId ?? "",
+          });
 
     api.logger.info(
         `[1claw] Initializing plugin (base: ${config.baseUrl}, agent: ${config.agentId ?? "auto-resolve"})`,

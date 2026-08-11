@@ -9,6 +9,7 @@ export interface ResolvedFeatures {
 
 export interface ResolvedConfig {
     apiKey: string | undefined;
+    token: string | undefined;
     agentId: string | undefined;
     vaultId: string | undefined;
     baseUrl: string;
@@ -19,6 +20,7 @@ export interface ResolvedConfig {
 
 interface RawPluginConfig {
     apiKey?: string;
+    token?: string;
     agentId?: string;
     vaultId?: string;
     baseUrl?: string;
@@ -51,6 +53,11 @@ export function resolveConfig(pluginConfig?: RawPluginConfig): ResolvedConfig {
             raw.apiKey ??
             process.env.ONECLAW_AGENT_API_KEY ??
             process.env.ONECLAW_API_KEY ??
+            undefined,
+        token:
+            raw.token ??
+            process.env.ONECLAW_AGENT_TOKEN ??
+            process.env.ONECLAW_TOKEN ??
             undefined,
         agentId:
             raw.agentId ??
