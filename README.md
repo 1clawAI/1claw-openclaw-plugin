@@ -1,10 +1,14 @@
 # 1claw OpenClaw Plugin
 
-OpenClaw gateway plugin for [1claw](https://1claw.xyz) — HSM-backed secret management, transaction signing, and Shroud LLM proxy integration for AI agents.
+OpenClaw gateway plugin for [1claw](https://1claw.xyz).
 
 **Repository:** [github.com/1clawAI/1claw-openclaw-plugin](https://github.com/1clawAI/1claw-openclaw-plugin)  
 **npm:** [@1claw/openclaw-plugin](https://www.npmjs.com/package/@1claw/openclaw-plugin)  
 **Docs:** [OpenClaw Plugins](https://docs.openclaw.ai/tools/plugin) · [1claw](https://docs.1claw.xyz)
+
+OpenClaw agents need vault access, transaction signing, and sometimes an inspected LLM path. Running a separate MCP process works, but this plugin registers 27+ native tools inside the gateway itself. Secrets are fetched at runtime. Outbound messages get scanned for leaked values. Optional Shroud routing sends LLM traffic through the TEE proxy when the agent has it enabled.
+
+Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your agent gets secrets, signing, automations, memory, runtimes, and directory tools without extra wiring. Toggle features (redaction, injection, Shroud, slash commands) in `plugins.entries.1claw.config.features`.
 
 ---
 
