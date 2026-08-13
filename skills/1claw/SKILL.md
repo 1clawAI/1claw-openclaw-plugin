@@ -807,7 +807,7 @@ When many agents operate in the same organization:
 | ---- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 400  | Bad request                                                | Check request body format                                                                                                                                                                         |
 | 401  | Not authenticated                                          | Token expired — re-authenticate                                                                                                                                                                   |
-| 402  | Quota exhausted / payment required                         | Body may include `required_usd`, `message`. Intents submit over quota: 0.25% of tx value; top up credits or send X-PAYMENT for required amount. Otherwise upgrade at `1claw.xyz/settings/billing` |
+| 402  | Quota exhausted / payment required                         | Body may include `required_usd`, `message`. Signature overage is a flat per-signature rate; top up credits or send X-PAYMENT. Otherwise upgrade at `1claw.xyz/settings/billing` |
 | 403  | No permission                                              | Ask user to grant access via a policy. Or: guardrail violation (check error detail)                                                                                                               |
 | 403  | Resource limit reached (`type: "resource_limit_exceeded"`) | Tier limit on vaults/secrets/agents hit — ask user to upgrade at `1claw.xyz/settings/billing`                                                                                                     |
 | 404  | Not found                                                  | Check path with `list_secrets`                                                                                                                                                                    |
@@ -839,15 +839,15 @@ All error responses include a `detail` field with a human-readable message.
 
 ## Billing Tiers
 
-| Tier       | Requests/mo | Vaults    | Secrets   | Agents    | Price                             |
-| ---------- | ----------- | --------- | --------- | --------- | --------------------------------- |
-| Free       | 1,000       | 3         | 50        | 2         | $0                                |
-| Pro        | 20,000      | 25        | 500       | 10        | $29/mo (Platform API)             |
-| Team       | 200,000     | 100       | 5,000     | 50        | $299/mo (SSO, Platform API)       |
-| Business   | 500,000     | Unlimited | Unlimited | 200       | $999/mo (Intents API, CMEK)       |
-| Enterprise | Custom      | Unlimited | Unlimited | Unlimited | Contact sales                     |
+| Tier       | API calls/mo | Wallets   | Signatures/mo | Vaults    | Secrets   | Agents    | Price                             |
+| ---------- | ------------ | --------- | ------------- | --------- | --------- | --------- | --------------------------------- |
+| Free       | 1,000        | 10        | 100           | 3         | 50        | 2         | $0                                |
+| Pro        | 20,000       | 10,000    | 20,000        | 5         | 500       | 10        | $29/mo (Platform API)             |
+| Team       | 200,000      | 250,000   | 200,000       | 100       | 5,000     | 50        | $299/mo (SSO, Platform API)       |
+| Business   | 1,000,000    | 1,000,000 | 1,000,000     | Unlimited | Unlimited | 200       | $999/mo (Intents API, CMEK)       |
+| Enterprise | Unlimited    | Unlimited | Unlimited     | Unlimited | Unlimited | Unlimited | Contact sales                     |
 
-Overage methods: **prepaid credits** (top up via Stripe, deducted per request) or **x402 micropayments** (per-query on-chain payments on Base).
+Overage methods: **prepaid credits** (top up via Stripe, deducted per request) or **x402 micropayments** (per-query on-chain payments on Base). Signature overage is a flat per-signature charge (not a percent of transaction value). Signing POSTs do not consume the API Calls meter. Treasury wallets are available on all tiers and count toward wallet quota.
 
 Audit, org, security, chain, billing, and auth endpoints are **free and never consume quota**.
 
