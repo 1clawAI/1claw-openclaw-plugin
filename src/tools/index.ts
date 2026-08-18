@@ -29,6 +29,9 @@ import { getMemoryTool } from "./get-memory.js";
 import { listMemoryTool } from "./list-memory.js";
 import { listAutomationsTool } from "./list-automations.js";
 import { triggerAutomationTool } from "./trigger-automation.js";
+import { resolveEnvTool } from "./resolve-env.js";
+import { listEnvVarsTool } from "./list-env-vars.js";
+import { createEnvVarTool } from "./create-env-var.js";
 
 type ToolFactory = (client: OneClawClient) => PluginTool;
 
@@ -59,6 +62,9 @@ const ALL_TOOL_FACTORIES: ToolFactory[] = [
     listMemoryTool,
     listAutomationsTool,
     triggerAutomationTool,
+    resolveEnvTool,
+    listEnvVarsTool,
+    createEnvVarTool,
 ];
 
 function wrapWithSecurity(

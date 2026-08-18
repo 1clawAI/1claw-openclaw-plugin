@@ -714,6 +714,43 @@ export class OneClawClient {
         );
     }
 
+    // ── Environment Variables ─────────────────────────────
+
+    async resolveEnvVars(
+        environment: string,
+        gitBranch?: string,
+    ): Promise<Record<string, unknown>> {
+        const qs = new URLSearchParams({ environment });
+        if (gitBranch) qs.set("git_branch", gitBranch);
+        return this.request<Record<string, unknown>>(
+            await this.resolveVaultUrl(`/env-vars/resolve?${qs.toString()}`),
+        );
+    }
+
+    async listEnvVars(
+        environment?: string,
+    ): Promise<{ env_vars: Array<Record<string, unknown>> }> {
+        const qs = environment
+            ? `?environment=${encodeURIComponent(environment)}`
+            : "";
+        return this.request<{ env_vars: Array<Record<string, unknown>> }>(
+            await this.resolveVaultUrl(`/env-vars${qs}`),
+        );
+    }
+
+    async createEnvVar(body: {
+        key: string;
+        value: string;
+        environments?: string[];
+        sensitive?: boolean;
+        comment?: string;
+    }): Promise<Record<string, unknown>> {
+        return this.request<Record<string, unknown>>(
+            await this.resolveVaultUrl("/env-vars"),
+            { method: "POST", body: JSON.stringify(body) },
+        );
+    }
+
     // ── Agent profile ────────────────────────────────────
 
     async getAgentProfile(): Promise<AgentProfile> {
