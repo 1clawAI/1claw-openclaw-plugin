@@ -68,6 +68,9 @@ Minimal config (config file or env):
 
 **Env fallback:** `ONECLAW_AGENT_API_KEY`, `ONECLAW_AGENT_ID`, `ONECLAW_VAULT_ID`, `ONECLAW_BASE_URL`, `ONECLAW_SHROUD_URL`.
 
+Prefer the env fallback for hosted agents so `ONECLAW_AGENT_API_KEY` stays out
+of checked-in OpenClaw config files.
+
 Restart the OpenClaw Gateway after changing config.
 
 ---
@@ -77,6 +80,29 @@ Restart the OpenClaw Gateway after changing config.
 When enabled, tools are registered with a `oneclaw_` prefix (e.g. `oneclaw_list_secrets`, `oneclaw_get_secret`). Add them to your agent’s `tools.allow` (e.g. `"1claw"` or specific names).
 
 ---
+
+## Companion plugin example: TweetClaw
+
+Use 1claw to manage the Xquik API key used by
+[TweetClaw](https://github.com/Xquik-dev/tweetclaw). TweetClaw reads the key
+from sensitive OpenClaw plugin config. 1claw does not inject vault values into
+another plugin's config automatically.
+
+```bash
+openclaw plugins install clawhub:@xquik/tweetclaw
+openclaw config set plugins.entries.tweetclaw.config.apiKey "$XQUIK_API_KEY"
+openclaw gateway restart
+openclaw plugins inspect tweetclaw --runtime --json
+```
+
+Retrieve the current key through a trusted human workflow. Expose it as
+`XQUIK_API_KEY` only in that shell. Never paste it into an agent prompt. After
+rotating the key in 1claw, repeat the `config set` command and restart OpenClaw.
+If the tool profile excludes plugins, add both names to `tools.alsoAllow`.
+
+TweetClaw injects auth into its API calls. It provides structured tools for
+search, publishing, exports, monitoring, media, direct messages, and draws.
+Review each OpenClaw approval prompt before allowing visible X/Twitter writes.
 
 ## Slash commands
 
