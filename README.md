@@ -19,6 +19,8 @@ Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your 
 - **Agent Memory** — Store and search persistent vector memory via `oneclaw_store_memory`, `oneclaw_search_memory`
 - **Runtimes** — Deploy and manage agent runtime environments via `oneclaw_deploy_runtime`, `oneclaw_list_runtimes`
 - **Discovery** — Publish agents to the 1Claw directory via `oneclaw_publish_agent`, `oneclaw_search_directory`
+- **Safe accounts** — List/provision counterfactual Safe agent accounts via `oneclaw_list_agent_accounts`, `oneclaw_migrate_agent_to_safe` (v0.56.2+, requires `@1claw/sdk` / MCP parity)
+- **Guardrail governance** — Agent guardrail widening returns `202` + approval id; execution HITL for bindings when policy matches (v0.56+ platform)
 - **Secret redaction** — Scan outbound messages and redact leaked secret values (default on)
 - **Secret injection** — Replace `{{1claw:path/to/secret}}` placeholders at prompt time (opt-in)
 - **Shroud routing** — Route LLM traffic through [Shroud](https://shroud.1claw.xyz) TEE when the agent has `shroud_enabled` (opt-in)
@@ -28,6 +30,17 @@ Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your 
 - **Bundled skill** — 1claw skill (`skills/1claw/SKILL.md`) auto-discovered by OpenClaw
 
 All features are toggled via `plugins.entries.1claw.config.features`. Auth uses config or env vars.
+
+### Platform v0.56+ (HITL, HFA, Safe)
+
+| Capability | Plugin behavior |
+|------------|-----------------|
+| **Graduated HITL** | `oneclaw_submit_transaction` / sign tools may return `awaiting_approval` — poll approvals or use dashboard/mobile inbox. |
+| **Human Factor Auth** | N/A for agent keys; treasury HFA is human-only (`@1claw/wallet-react`). |
+| **Guardrail governance** | Execution intents honor shadow/enforce; widening guardrails requires human `policy_change` approval. |
+| **Safe foundation** | Safe account tools when MCP/SDK expose them; on-chain deploy stubs return 501 until Guard audit. |
+
+Pin `@1claw/openclaw-plugin@0.56.2` with Vault API / MCP **0.56.2** for Safe account tools.
 
 ---
 
