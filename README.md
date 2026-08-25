@@ -6,21 +6,22 @@ OpenClaw gateway plugin for [1claw](https://1claw.xyz).
 **npm:** [@1claw/openclaw-plugin](https://www.npmjs.com/package/@1claw/openclaw-plugin)  
 **Docs:** [OpenClaw Plugins](https://docs.openclaw.ai/tools/plugin) · [1claw](https://docs.1claw.xyz)
 
-OpenClaw agents need vault access, transaction signing, and sometimes an inspected LLM path. Running a separate MCP process works, but this plugin registers 27+ native tools inside the gateway itself. Secrets are fetched at runtime. Outbound messages get scanned for leaked values. Optional Shroud routing sends LLM traffic through the TEE proxy when the agent has it enabled.
+OpenClaw agents need vault access, transaction signing, and sometimes an inspected LLM path. Running a separate MCP process works, but this plugin registers **29 native tools** inside the gateway itself. Secrets are fetched at runtime. Outbound messages get scanned for leaked values. Optional Shroud routing sends LLM traffic through the TEE proxy when the agent has it enabled.
 
-Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your agent gets secrets, signing, automations, memory, runtimes, and directory tools without extra wiring. Toggle features (redaction, injection, Shroud, slash commands) in `plugins.entries.1claw.config.features`.
+Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your agent gets secrets, signing, env vars, execution bindings, automations, memory, and approvals without extra wiring. Toggle features (redaction, injection, Shroud, slash commands) in `plugins.entries.1claw.config.features`.
 
 ---
 
 ## Features
 
-- **Native agent tools** — 27+ tools for secrets, vaults, policies, sharing, signing keys, multi-chain transactions, execution intents, automations, memory, runtimes, and discovery (EVM + Bitcoin, Solana, XRP, Cardano, Tron; optional, configurable)
-- **Automations** — Create and manage cron-based scheduled tasks via `oneclaw_create_automation`, `oneclaw_list_automations`, `oneclaw_delete_automation`
-- **Agent Memory** — Store and search persistent vector memory via `oneclaw_store_memory`, `oneclaw_search_memory`
-- **Runtimes** — Deploy and manage agent runtime environments via `oneclaw_deploy_runtime`, `oneclaw_list_runtimes`
-- **Discovery** — Publish agents to the 1Claw directory via `oneclaw_publish_agent`, `oneclaw_search_directory`
-- **Safe accounts** — List/provision counterfactual Safe agent accounts via `oneclaw_list_agent_accounts`, `oneclaw_migrate_agent_to_safe` (v0.56.2+, requires `@1claw/sdk` / MCP parity)
-- **Guardrail governance** — Agent guardrail widening returns `202` + approval id; execution HITL for bindings when policy matches (v0.56+ platform)
+- **Native agent tools** — 29 tools for secrets, vaults, policies, sharing, signing keys, multi-chain transactions, execution intents, env vars, automations, memory, and approvals (EVM + Bitcoin, Solana, XRP, Cardano, Tron; optional, configurable)
+- **Secrets & vaults** — `oneclaw_list_secrets`, `oneclaw_get_secret`, `oneclaw_put_secret`, `oneclaw_delete_secret`, `oneclaw_describe_secret`, `oneclaw_rotate_and_store`, `oneclaw_get_env_bundle`, `oneclaw_create_vault`, `oneclaw_list_vaults`, `oneclaw_grant_access`, `oneclaw_share_secret`
+- **Env vars** — `oneclaw_resolve_env`, `oneclaw_list_env_vars`, `oneclaw_create_env_var`
+- **Signing** — `oneclaw_provision_signing_key`, `oneclaw_list_signing_keys`, `oneclaw_sign_message`, `oneclaw_sign_typed_data`, `oneclaw_simulate_transaction`, `oneclaw_sign_transaction`, `oneclaw_submit_transaction`
+- **Execution intents** — `oneclaw_execute_http`, `oneclaw_list_bindings`
+- **Automations & memory** — `oneclaw_list_automations`, `oneclaw_trigger_automation`, `oneclaw_put_memory`, `oneclaw_get_memory`, `oneclaw_list_memory`
+- **Approvals** — `oneclaw_request_approval` for human-in-the-loop policy changes
+- **Guardrail governance** — Execution intents honor shadow/enforce; guardrail widening requires human `policy_change` approval (v0.56+)
 - **Secret redaction** — Scan outbound messages and redact leaked secret values (default on)
 - **Secret injection** — Replace `{{1claw:path/to/secret}}` placeholders at prompt time (opt-in)
 - **Shroud routing** — Route LLM traffic through [Shroud](https://shroud.1claw.xyz) TEE when the agent has `shroud_enabled` (opt-in)
@@ -31,16 +32,15 @@ Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your 
 
 All features are toggled via `plugins.entries.1claw.config.features`. Auth uses config or env vars.
 
-### Platform v0.56+ (HITL, HFA, Safe)
+### Platform v0.56+ (HITL, HFA, guardrails)
 
 | Capability | Plugin behavior |
 |------------|-----------------|
 | **Graduated HITL** | `oneclaw_submit_transaction` / sign tools may return `awaiting_approval` — poll approvals or use dashboard/mobile inbox. |
 | **Human Factor Auth** | N/A for agent keys; treasury HFA is human-only (`@1claw/wallet-react`). |
 | **Guardrail governance** | Execution intents honor shadow/enforce; widening guardrails requires human `policy_change` approval. |
-| **Safe foundation** | Safe account tools when MCP/SDK expose them; on-chain deploy stubs return 501 until Guard audit. |
 
-Pin `@1claw/openclaw-plugin@0.56.2` with Vault API / MCP **0.56.2** for Safe account tools.
+Pin `@1claw/openclaw-plugin@0.57.0` with Vault API / MCP **0.58.0** for full platform parity. For Safe account tools, use `@1claw/sdk`, `@1claw/cli`, or `@1claw/mcp`.
 
 ---
 
