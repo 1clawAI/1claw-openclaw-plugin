@@ -1,10 +1,12 @@
 # 1claw OpenClaw Plugin
 
-OpenClaw gateway plugin for [1claw](https://1claw.xyz).
+> ⭐ **Star [1clawAI/agent-templates](https://github.com/1clawAI/agent-templates)** — ready-to-run agent templates wired to 1Claw. It is our single starred repo.
+
+OpenClaw gateway plugin for [1claw](https://1claw.co).
 
 **Repository:** [github.com/1clawAI/1claw-openclaw-plugin](https://github.com/1clawAI/1claw-openclaw-plugin)  
 **npm:** [@1claw/openclaw-plugin](https://www.npmjs.com/package/@1claw/openclaw-plugin)  
-**Docs:** [OpenClaw Plugins](https://docs.openclaw.ai/tools/plugin) · [1claw](https://docs.1claw.xyz)
+**Docs:** [OpenClaw Plugins](https://docs.openclaw.ai/tools/plugin) · [1claw](https://docs.1claw.co)
 
 OpenClaw agents need vault access, transaction signing, and sometimes an inspected LLM path. Running a separate MCP process works, but this plugin registers **29 native tools** inside the gateway itself. Secrets are fetched at runtime. Outbound messages get scanned for leaked values. Optional Shroud routing sends LLM traffic through the TEE proxy when the agent has it enabled.
 
@@ -24,7 +26,7 @@ Install one npm package, set `ONECLAW_AGENT_API_KEY`, restart the gateway. Your 
 - **Guardrail governance** — Execution intents honor shadow/enforce; guardrail widening requires human `policy_change` approval (v0.56+)
 - **Secret redaction** — Scan outbound messages and redact leaked secret values (default on)
 - **Secret injection** — Replace `{{1claw:path/to/secret}}` placeholders at prompt time (opt-in)
-- **Shroud routing** — Route LLM traffic through [Shroud](https://shroud.1claw.xyz) TEE when the agent has `shroud_enabled` (opt-in)
+- **Shroud routing** — Route LLM traffic through [Shroud](https://shroud.1claw.co) TEE when the agent has `shroud_enabled` (opt-in)
 - **Key rotation monitor** — Background warnings for secrets expiring within 7 days (opt-in)
 - **Slash commands** — `/oneclaw`, `/oneclaw-list`, `/oneclaw-rotate`, `/oneclaw-memory` (optional)
 - **Gateway RPC** — `1claw.status` for programmatic health/status
@@ -130,4 +132,4 @@ git clone --recurse-submodules https://github.com/1clawAI/1claw.git
 
 ## License
 
-MIT © [1claw](https://1claw.xyz)
+MIT © [1claw](https://1claw.co)
