@@ -53,8 +53,8 @@ metadata:
 
 **API base URL:** `https://api.1claw.co`
 **Shroud (TEE proxy):** `https://shroud.1claw.co`
-**MCP endpoint:** `https://mcp.1claw.xyz/mcp`
-**Dashboard:** `https://1claw.xyz`
+**MCP endpoint:** `https://mcp.1claw.co/mcp`
+**Dashboard:** `https://1claw.co`
 **Docs:** `https://docs.1claw.xyz`
 
 ## Pinata / OpenClaw hosting
@@ -139,7 +139,7 @@ Optional overrides: `ONECLAW_AGENT_ID` (explicit agent), `ONECLAW_VAULT_ID` (exp
 Hosted HTTP streaming mode:
 
 ```
-URL: https://mcp.1claw.xyz/mcp
+URL: https://mcp.1claw.co/mcp
 Headers:
   Authorization: Bearer <agent-jwt>
   X-Vault-ID: <vault-uuid>
@@ -855,13 +855,13 @@ Audit, org, security, chain, billing, and auth endpoints are **free and never co
 
 ## Links
 
-- Dashboard: [1claw.xyz](https://1claw.xyz)
+- Dashboard: [1claw.xyz](https://1claw.co)
 - Docs: [docs.1claw.xyz](https://docs.1claw.xyz)
-- Status: [1claw.xyz/status](https://1claw.xyz/status)
+- Status: [1claw.xyz/status](https://1claw.co/status)
 - API: `https://api.1claw.co`
 - SDK: [@1claw/sdk on npm](https://www.npmjs.com/package/@1claw/sdk)
 - OpenAPI Spec: [@1claw/openapi-spec on npm](https://www.npmjs.com/package/@1claw/openapi-spec)
 - MCP Server: [@1claw/mcp on npm](https://www.npmjs.com/package/@1claw/mcp)
 - CLI: [@1claw/cli on npm](https://www.npmjs.com/package/@1claw/cli)
 - GitHub: [github.com/1clawAI](https://github.com/1clawAI)
-- Support: [ops@1claw.xyz](mailto:ops@1claw.xyz)
+- Support: [ops@1claw.co](mailto:ops@1claw.co)

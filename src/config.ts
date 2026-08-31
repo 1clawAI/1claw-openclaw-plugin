@@ -70,11 +70,11 @@ export function resolveConfig(pluginConfig?: RawPluginConfig): ResolvedConfig {
         baseUrl:
             raw.baseUrl ??
             process.env.ONECLAW_BASE_URL ??
-            "https://api.1claw.xyz",
+            "https://api.1claw.co",
         shroudUrl:
             raw.shroudUrl ??
             process.env.ONECLAW_SHROUD_URL ??
-            "https://shroud.1claw.xyz",
+            "https://shroud.1claw.co",
         features: {
             ...DEFAULT_FEATURES,
             ...(raw.features ?? {}),

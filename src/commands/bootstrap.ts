@@ -144,7 +144,7 @@ export function bootstrapCommand(client: OneClawClient, config: ResolvedConfig) 
             lines.push(
                 "",
                 createdVaultName && !shareNote
-                    ? "Bootstrap complete. Your human now has owner-level access to the new vault from https://1claw.xyz."
+                    ? "Bootstrap complete. Your human now has owner-level access to the new vault from https://1claw.co."
                     : createdVaultName && shareNote
                       ? "Bootstrap complete (vault created, but sharing skipped — see note above)."
                       : "Bootstrap complete. Using an existing vault.",
