@@ -24,7 +24,7 @@ export function enrollCommand(config: ResolvedConfig) {
                     text: [
                         "Usage:",
                         "  • /oneclaw-enroll you@example.com [agent-name]  — email + optional name (approval email sent; approval URL may appear below too)",
-                        "  • /oneclaw-enroll my-agent-name  — link-only enrollment (open the approval URL while signed in at 1claw.xyz)",
+                        "  • /oneclaw-enroll my-agent-name  — link-only enrollment (open the approval URL while signed in at 1claw.co)",
                         "",
                         "After approval, add ONECLAW_AGENT_API_KEY to your agent host (e.g. Pinata → Environment Variables) and restart.",
                     ].join("\n"),

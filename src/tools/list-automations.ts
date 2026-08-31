@@ -13,8 +13,16 @@ export function listAutomationsTool(client: OneClawClient): PluginTool {
             if (automations.length === 0) {
                 return { content: [{ type: "text", text: "No automations configured." }] };
             }
-            const lines = automations.map(
-                (a: { name: string; trigger_type: string; is_active: boolean; last_run_status?: string }) =>
+            // Same as list-memory: narrow the array, not the callback param.
+            const lines = (
+                automations as Array<{
+                    name: string;
+                    trigger_type: string;
+                    is_active: boolean;
+                    last_run_status?: string;
+                }>
+            ).map(
+                (a) =>
                     `- ${a.name} (trigger: ${a.trigger_type}, active: ${a.is_active}, last: ${a.last_run_status ?? "never"})`,
             );
             return {

@@ -15,8 +15,10 @@ export function listMemoryTool(client: OneClawClient): PluginTool {
             if (entries.length === 0) {
                 return { content: [{ type: "text", text: `No memory entries in namespace "${params.namespace}".` }] };
             }
-            const lines = entries.map(
-                (e: { key: string; tier: string; updated_at: string }) =>
+            // listMemory returns Record<string, unknown>[]; narrow once here
+            // rather than on the callback parameter, which strict mode rejects.
+            const lines = (entries as Array<{ key: string; tier: string; updated_at: string }>).map(
+                (e) =>
                     `- ${e.key} (tier: ${e.tier}, updated: ${e.updated_at})`,
             );
             return {

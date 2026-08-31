@@ -21,7 +21,7 @@ export function listBindingsTool(client: OneClawClient): PluginTool {
                 const bindings = result.bindings ?? [];
 
                 if (bindings.length === 0) {
-                    return { content: [{ type: "text", text: "No bindings configured. A human can create them at 1claw.xyz/dashboard on the agent detail page." }] };
+                    return { content: [{ type: "text", text: "No bindings configured. A human can create them at 1claw.co/dashboard on the agent detail page." }] };
                 }
 
                 const lines = bindings.map((b: any) => {

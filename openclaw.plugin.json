@@ -21,12 +21,12 @@
             },
             "baseUrl": {
                 "type": "string",
-                "default": "https://api.1claw.xyz",
+                "default": "https://api.1claw.co",
                 "description": "1claw API base URL"
             },
             "shroudUrl": {
                 "type": "string",
-                "default": "https://shroud.1claw.xyz",
+                "default": "https://shroud.1claw.co",
                 "description": "Shroud TEE proxy URL"
             },
             "features": {
@@ -89,11 +89,11 @@
         },
         "baseUrl": {
             "label": "API Base URL",
-            "placeholder": "https://api.1claw.xyz"
+            "placeholder": "https://api.1claw.co"
         },
         "shroudUrl": {
             "label": "Shroud Proxy URL",
-            "placeholder": "https://shroud.1claw.xyz"
+            "placeholder": "https://shroud.1claw.co"
         },
         "securityMode": {
             "label": "Security Mode"

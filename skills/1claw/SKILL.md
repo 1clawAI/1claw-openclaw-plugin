@@ -2,7 +2,7 @@
 name: 1claw
 version: 1.2.0
 description: HSM-backed secret management for AI agents — store, retrieve, rotate, and share secrets via the 1Claw vault without exposing them in context.
-homepage: https://1claw.xyz
+homepage: https://1claw.co
 repository: https://github.com/1clawAI/1claw
 metadata:
     {
@@ -51,8 +51,8 @@ metadata:
 
 1Claw is a cloud HSM-backed secrets manager. Agents access API keys, passwords, and credentials at runtime without them ever entering the conversation context. Secrets are encrypted with keys that never leave the HSM.
 
-**API base URL:** `https://api.1claw.xyz`
-**Shroud (TEE proxy):** `https://shroud.1claw.xyz`
+**API base URL:** `https://api.1claw.co`
+**Shroud (TEE proxy):** `https://shroud.1claw.co`
 **MCP endpoint:** `https://mcp.1claw.xyz/mcp`
 **Dashboard:** `https://1claw.xyz`
 **Docs:** `https://docs.1claw.xyz`
@@ -81,13 +81,13 @@ If you don't have credentials yet, self-enroll — this sends them to your human
 
 ```bash
 # curl
-curl -s -X POST https://api.1claw.xyz/v1/agents/enroll \
+curl -s -X POST https://api.1claw.co/v1/agents/enroll \
   -H "Content-Type: application/json" \
   -d '{"name":"my-agent","human_email":"human@example.com"}'
 
 # TypeScript SDK (static method, no auth needed)
 import { AgentsResource } from "@1claw/sdk";
-await AgentsResource.enroll("https://api.1claw.xyz", {
+await AgentsResource.enroll("https://api.1claw.co", {
   name: "my-agent",
   human_email: "human@example.com",
 });
@@ -155,7 +155,7 @@ npm install @1claw/sdk
 import { createClient } from "@1claw/sdk";
 
 const client = createClient({
-    baseUrl: "https://api.1claw.xyz",
+    baseUrl: "https://api.1claw.co",
     apiKey: process.env.ONECLAW_AGENT_API_KEY,
 });
 ```
@@ -166,14 +166,14 @@ Authenticate, then pass the Bearer token on every request.
 
 ```bash
 # Exchange agent API key for a JWT (key-only — agent_id is auto-resolved)
-RESP=$(curl -s -X POST https://api.1claw.xyz/v1/auth/agent-token \
+RESP=$(curl -s -X POST https://api.1claw.co/v1/auth/agent-token \
   -H "Content-Type: application/json" \
   -d '{"api_key":"<key>"}')
 TOKEN=$(echo "$RESP" | jq -r .access_token)
 AGENT_ID=$(echo "$RESP" | jq -r .agent_id)
 
 # Use the JWT
-curl -H "Authorization: Bearer $TOKEN" https://api.1claw.xyz/v1/vaults
+curl -H "Authorization: Bearer $TOKEN" https://api.1claw.co/v1/vaults
 ```
 
 **Alternative:** `1ck_` API keys (personal or agent) can be used directly as Bearer tokens — no JWT exchange needed.
@@ -335,7 +335,7 @@ Submit an EVM transaction for signing and optional broadcast. Requires `intents_
 
 ## REST API Quick Reference
 
-Base URL: `https://api.1claw.xyz`. All authenticated endpoints require `Authorization: Bearer <token>`.
+Base URL: `https://api.1claw.co`. All authenticated endpoints require `Authorization: Bearer <token>`.
 
 ### Auth (public — no token required)
 
@@ -858,7 +858,7 @@ Audit, org, security, chain, billing, and auth endpoints are **free and never co
 - Dashboard: [1claw.xyz](https://1claw.xyz)
 - Docs: [docs.1claw.xyz](https://docs.1claw.xyz)
 - Status: [1claw.xyz/status](https://1claw.xyz/status)
-- API: `https://api.1claw.xyz`
+- API: `https://api.1claw.co`
 - SDK: [@1claw/sdk on npm](https://www.npmjs.com/package/@1claw/sdk)
 - OpenAPI Spec: [@1claw/openapi-spec on npm](https://www.npmjs.com/package/@1claw/openapi-spec)
 - MCP Server: [@1claw/mcp on npm](https://www.npmjs.com/package/@1claw/mcp)
