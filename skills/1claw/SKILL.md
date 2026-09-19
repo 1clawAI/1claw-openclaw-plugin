@@ -55,7 +55,7 @@ metadata:
 **Shroud (TEE proxy):** `https://shroud.1claw.co`
 **MCP endpoint:** `https://mcp.1claw.co/mcp`
 **Dashboard:** `https://1claw.co`
-**Docs:** `https://docs.1claw.xyz`
+**Docs:** `https://docs.1claw.co`
 
 ## Pinata / OpenClaw hosting
 
@@ -69,7 +69,7 @@ metadata:
 - You need to rotate a credential after regenerating it
 - You want to check what secrets are available before using one
 - You need to sign or simulate an EVM transaction without exposing private keys
-- You want TEE-grade key isolation for transaction signing (use Shroud at `shroud.1claw.xyz`)
+- You want TEE-grade key isolation for transaction signing (use Shroud at `shroud.1claw.co`)
 
 ---
 
@@ -624,7 +624,7 @@ Agents **cannot** modify their own guardrails. Violations return 403 with a desc
 
 ### Shroud per-agent LLM proxy
 
-When `shroud_enabled = true` (set by a human), the agent's LLM traffic is routed through Shroud (`shroud.1claw.xyz`) for secret redaction, PII scrubbing, prompt injection defense, threat detection, and policy enforcement inside a TEE.
+When `shroud_enabled = true` (set by a human), the agent's LLM traffic is routed through Shroud (`shroud.1claw.co`) for secret redaction, PII scrubbing, prompt injection defense, threat detection, and policy enforcement inside a TEE.
 
 `shroud_config` is an optional JSON object that lets humans fine-tune the proxy behavior per agent:
 
@@ -746,7 +746,7 @@ await client.agents.update(agentId, {
 1claw agent update <agent-id> --shroud false
 ```
 
-**MCP:** When `shroud_enabled` is true, the agent can send LLM requests through `shroud.1claw.xyz`. The Shroud proxy enforces the agent's `shroud_config` policy automatically — no client-side changes needed.
+**MCP:** When `shroud_enabled` is true, the agent can send LLM requests through `shroud.1claw.co`. The Shroud proxy enforces the agent's `shroud_config` policy automatically — no client-side changes needed.
 
 ---
 
@@ -807,9 +807,9 @@ When many agents operate in the same organization:
 | ---- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 400  | Bad request                                                | Check request body format                                                                                                                                                                         |
 | 401  | Not authenticated                                          | Token expired — re-authenticate                                                                                                                                                                   |
-| 402  | Quota exhausted / payment required                         | Body may include `required_usd`, `message`. Signature overage is a flat per-signature rate; top up credits or send X-PAYMENT. Otherwise upgrade at `1claw.xyz/settings/billing` |
+| 402  | Quota exhausted / payment required                         | Body may include `required_usd`, `message`. Signature overage is a flat per-signature rate; top up credits or send X-PAYMENT. Otherwise upgrade at `1claw.co/settings/billing` |
 | 403  | No permission                                              | Ask user to grant access via a policy. Or: guardrail violation (check error detail)                                                                                                               |
-| 403  | Resource limit reached (`type: "resource_limit_exceeded"`) | Tier limit on vaults/secrets/agents hit — ask user to upgrade at `1claw.xyz/settings/billing`                                                                                                     |
+| 403  | Resource limit reached (`type: "resource_limit_exceeded"`) | Tier limit on vaults/secrets/agents hit — ask user to upgrade at `1claw.co/settings/billing`                                                                                                     |
 | 404  | Not found                                                  | Check path with `list_secrets`                                                                                                                                                                    |
 | 405  | Method not allowed                                         | Wrong HTTP verb for this endpoint                                                                                                                                                                 |
 | 409  | Conflict                                                   | Resource already exists (e.g. duplicate vault name)                                                                                                                                               |
@@ -855,9 +855,9 @@ Audit, org, security, chain, billing, and auth endpoints are **free and never co
 
 ## Links
 
-- Dashboard: [1claw.xyz](https://1claw.co)
-- Docs: [docs.1claw.xyz](https://docs.1claw.xyz)
-- Status: [1claw.xyz/status](https://1claw.co/status)
+- Dashboard: [1claw.co](https://1claw.co)
+- Docs: [docs.1claw.co](https://docs.1claw.co)
+- Status: [1claw.co/status](https://1claw.co/status)
 - API: `https://api.1claw.co`
 - SDK: [@1claw/sdk on npm](https://www.npmjs.com/package/@1claw/sdk)
 - OpenAPI Spec: [@1claw/openapi-spec on npm](https://www.npmjs.com/package/@1claw/openapi-spec)
