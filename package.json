@@ -1,6 +1,6 @@
 {
   "name": "@1claw/openclaw-plugin",
-  "version": "0.57.1",
+  "version": "0.57.2",
   "description": "OpenClaw plugin for 1claw \u2014 HSM-backed secret management, transaction signing, and Shroud LLM proxy integration for AI agents",
   "type": "module",
   "main": "src/index.ts",
